@@ -108,12 +108,12 @@ randomCoeff 5 12 1 18 -262144 -1 -191407 0 1;
 #X connect 43 0 18 0;
 #X restore 344 64 pd TUNER;
 #X obj 26 140 hsl 128 25 0.2 20 1 0 \$0-pointSize \$0-pointSize-set
-pointSize 5 12 1 18 -262144 -1 -191407 3030 1;
+pointSize 5 12 1 18 -262144 -1 -191407 4297 1;
 #X floatatom 157 149 5 0 0 0 - #0-pointSize-set #0-pointSize;
 #X obj 26 172 hsl 128 25 0.0005 0.1 1 0 \$0-voxelSize \$0-voxelSize-set
-voxelSize 5 12 1 18 -262144 -1 -191407 0 1;
+voxelSize 5 12 1 18 -262144 -1 -191407 3323 1;
 #X floatatom 157 181 5 0 0 0 - #0-voxelSize-set #0-voxelSize;
-#X obj 172 89 tgl 30 0 \$0-UI-tgl \$0-UI-tgl-set updateUI? -5 -10 0
+#X obj 173 87 tgl 30 0 \$0-UI-tgl \$0-UI-tgl-set updateUI? -5 -10 0
 10 -262144 -1 -1 1 1;
 #X obj 26 233 hsl 128 25 0 10 0 0 \$0-distCrop \$0-distCrop-set distCrop
 5 12 1 18 -262144 -1 -191407 0 1;
@@ -121,7 +121,7 @@ voxelSize 5 12 1 18 -262144 -1 -191407 0 1;
 #X obj 24 265 r \$0-color-set;
 #X obj 24 321 s \$0-color;
 #X obj 29 391 vradio 11 1 0 14 \$0-drawMode \$0-drawMode-set DrawMode
--5 -10 1 18 -262144 -1 -1 6;
+-5 -10 1 18 -262144 -1 -1 11;
 #X text 43 487 9) QUAD_STRIP;
 #X text 43 476 8) QUADS;
 #X text 43 465 7) TRIANGLE_FAN;
@@ -136,7 +136,7 @@ voxelSize 5 12 1 18 -262144 -1 -191407 0 1;
 #X text 43 509 11) LIGHTPOINTS;
 #X text 43 498 10) POLYGON;
 #X text 43 531 13) CUSTOM;
-#N canvas 0 0 670 679 CREATE_SCENE 0;
+#N canvas 305 371 777 700 CREATE_SCENE 0;
 #X obj 60 18 inlet;
 #X obj 120 251 spin.toCamera \$0;
 #X obj 34 469 thisdir;
@@ -161,14 +161,17 @@ voxelSize 5 12 1 18 -262144 -1 -191407 0 1;
 #X obj 34 384 bng 25 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X obj 34 360 delay 30000;
-#X obj 440 612 s \$0-audioToggle;
-#X obj 440 461 t b;
-#X msg 440 589 1;
-#X obj 514 495 delay 100;
-#X obj 440 438 delay 5000;
-#X text 373 409 start audio after video is surely loaded;
-#X msg 514 525 \; pd dsp 1 \;;
+#X obj 440 622 s \$0-audioToggle;
+#X obj 440 441 t b;
+#X msg 440 599 1;
+#X obj 514 475 delay 100;
+#X obj 440 418 delay 5000;
+#X text 373 389 start audio after video is surely loaded;
+#X msg 514 505 \; pd dsp 1 \;;
 #X obj 111 455 s start_presets;
+#X obj 602 548 s g_masterGain-set;
+#X obj 602 524 line;
+#X msg 602 500 -99 \, 0 2000;
 #X connect 0 0 3 0;
 #X connect 2 0 9 0;
 #X connect 3 0 5 0;
@@ -191,8 +194,11 @@ voxelSize 5 12 1 18 -262144 -1 -191407 0 1;
 #X connect 17 0 18 0;
 #X connect 18 0 16 0;
 #X connect 19 0 22 0;
+#X connect 19 0 26 0;
 #X connect 20 0 17 0;
-#X restore 11 109 pd CREATE_SCENE;
+#X connect 25 0 24 0;
+#X connect 26 0 25 0;
+#X restore 11 89 pd CREATE_SCENE;
 #N canvas 253 485 1033 522 GUTS 0;
 #X obj 112 81 r \$0-voxelSize;
 #X obj 135 132 r \$0-randomCoeff;
@@ -267,7 +273,7 @@ setColor setDrawMode;
 #X connect 34 0 25 0;
 #X connect 35 0 34 0;
 #X restore 344 84 pd GUTS;
-#X obj 11 79 bng 25 250 50 0 empty empty <-START! 35 13 0 20 -260097
+#X obj 11 59 bng 25 250 50 0 empty empty <-START! 35 13 0 20 -260097
 -1 -86853;
 #X obj 378 315 thisdir;
 #X obj 363 295 bng 12 250 50 0 empty empty empty 17 7 0 10 -262144
@@ -279,8 +285,8 @@ setColor setDrawMode;
 #X obj 378 295 loadbang;
 #X obj 453 216 t b b b;
 #X obj 369 216 delay 60000;
-#X obj 19 574 cnv 15 600 30 empty preset-cnv crazy 6 0.6 0 0.08 0.5 0.5 0 1 1 1.5
-20 12 1 18 -233017 -66577 0;
+#X obj 19 574 cnv 15 100 60 empty preset-cnv tiny_white_wave 11 0.95 0.002 0 1 1 1 1 1 0
+20 12 0 14 -233017 -66577 0;
 #X msg 346 500 \; preset-cnv label \$1;
 #X obj 346 479 list2symbol;
 #X obj 229 294 bng 30 250 50 0 empty empty RandomPreset 35 15 0 14
@@ -290,7 +296,7 @@ setColor setDrawMode;
 #X obj 427 368 list split 1;
 #X msg 578 344 1;
 #X obj 229 370 nbx 2 30 -1e+37 1e+37 0 0 empty empty empty 0 -8 1 26
--204786 -258113 -13381 6 256;
+-204786 -258113 -13381 5 256;
 #X obj 542 322 random 0 10;
 #X text 557 395 transition duration (sec);
 #N canvas 729 460 714 576 PRESETS-CREATOR 0;
@@ -340,7 +346,6 @@ alpha videoalpha distance;
 #X restore 344 104 pd PRESETS-CREATOR;
 #X msg 578 368 0;
 #X text 211 217 delay between presets ->;
-#X obj 11 58 delay 5000;
 #N canvas 455 283 933 702 AUDIO 0;
 #X obj 111 172 symbol;
 #X msg 111 192 open \$1;
@@ -354,7 +359,7 @@ alpha videoalpha distance;
 #X obj 108 318 throw~ ambR~;
 #X obj 83 340 throw~ ambL~;
 #X obj 558 223 vsl 20 100 -99 18 0 1 empty empty Output -14 -10 0 12
--260818 -1 -1 7700 1;
+-260818 -1 -1 8377 1;
 #X floatatom 558 329 5 0 0 1 db - -;
 #X obj 406 427 stgain2~;
 #X msg 524 231 0;
@@ -394,10 +399,10 @@ alpha videoalpha distance;
 #X obj 686 456 / 30;
 #X msg 703 303 thresh 10 20;
 #X obj 694 225 loadbang;
-#X msg 746 459 0.01;
 #X obj 720 537 pack 0 0;
 #X msg 719 575 \$1 \, \$2 300;
 #X obj 826 409 outlet;
+#X msg 746 459 0.03;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 8 0;
@@ -432,21 +437,21 @@ alpha videoalpha distance;
 #X connect 30 1 31 0;
 #X connect 34 0 43 0;
 #X connect 34 1 35 0;
-#X connect 34 1 49 0;
-#X connect 35 0 46 0;
+#X connect 34 1 48 0;
+#X connect 35 0 49 0;
 #X connect 36 0 37 0;
 #X connect 36 1 38 0;
 #X connect 39 0 34 0;
-#X connect 41 0 48 0;
+#X connect 41 0 47 0;
 #X connect 42 0 40 0;
 #X connect 44 0 34 0;
 #X connect 45 0 44 0;
 #X connect 46 0 47 0;
-#X connect 47 0 48 0;
-#X connect 48 0 42 0;
+#X connect 47 0 42 0;
+#X connect 49 0 46 0;
 #X restore 597 244 pd AUDIO;
 #X obj 642 117 vsl 30 100 -99 18 0 0 empty g_masterGain-set MASTER
--17 -12 1 12 -257985 -1 -86277 7700 1;
+-17 -12 1 12 -257985 -1 -86277 8377 1;
 #X floatatom 642 220 5 0 0 0 - - -;
 #X text 633 123 -------0db;
 #X obj 597 208 tgl 25 0 empty \$0-audioToggle empty 17 7 0 10 -262144
@@ -455,7 +460,7 @@ alpha videoalpha distance;
 #X obj 597 267 bng 20 250 50 0 empty empty empty 17 7 0 10 -262144
 -258113 -1;
 #X obj 453 157 r start_presets;
-#X connect 0 0 66 0;
+#X connect 0 0 44 0;
 #X connect 5 0 3 0;
 #X connect 8 0 7 0;
 #X connect 9 0 10 0;
@@ -487,10 +492,9 @@ alpha videoalpha distance;
 #X connect 59 0 12 1;
 #X connect 61 0 12 1;
 #X connect 64 0 12 1;
-#X connect 66 0 44 0;
-#X connect 67 0 73 0;
-#X connect 68 0 69 0;
-#X connect 69 0 67 1;
-#X connect 71 0 67 0;
-#X connect 72 0 11 0;
-#X connect 74 0 48 0;
+#X connect 66 0 72 0;
+#X connect 67 0 68 0;
+#X connect 68 0 66 1;
+#X connect 70 0 66 0;
+#X connect 71 0 11 0;
+#X connect 73 0 48 0;

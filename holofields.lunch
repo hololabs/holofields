@@ -1,50 +1,33 @@
 #!/usr/bin/env python
-# lunch config file for the custom project postures/NTA
 # -------------------------------------------------------------------
 
-#import os
-#execfile(os.path.expanduser("~/src/postures/trunk/scripts/postureVars.py"))
+_serverIP = "localhost"
+_viewerIP = "localhost"
+_audioIP = "localhost"
 
-# -----------------
-# variables:
-#_host = "10.10.30.9" # posture05
-#_controller = "10.10.30.11" #posture
-#_audioIP = "10.10.30.9" #ie, same machine as spinserver
-
-_host = "localhost" # posture05
-_controller = "localhost" #posture
-_audioIP = "localhost" #ie, same machine as spinserver
-
-
-_user = "posture"
-_projectPath = "~/src/postures/trunk/projects/mcluhan"
+_user = "mikewoz"
+_projectPath = "~/src/holofields"
 
 # -----------------
 # prep:
-#add_command("killall pdextended", user=_user, host=_controller, respawn=False)
-#add_command("killall pdextended; killall jack.plumbing; killall jackd; killall devilspie", identifier="killstuff", user=_user, host=_audioIP, respawn=False, sleep_after=1.0)
 add_command("killall pdextended; killall jackd", identifier="killstuff", user=_user, host=_audioIP, respawn=False, sleep_after=1.0)
 
-#add_command("jack.plumbing", user=_user, host=_host, identifier="jack.plumbing")
-#add_command("devilspie", user=_user, host=_host, identifier="devilspie")
+#add_command("jack.plumbing", user=_user, host=_audioIP, identifier="jack.plumbing")
+#add_command("devilspie", user=_user, host=_audioIP, identifier="devilspie")
 
+add_command("xset s off; xset s noblank; xset -dpms;", identifier="screenBlankOFF", user=_user, host=_viewerIP, respawn=False)
 
-add_command("xset s off; xset s noblank; xset -dpms;", identifier="screenBlankOFF", user=_user, host=_host, respawn=False)
+#add_command("firereset", identifier="firereset", user=_user, host=_audioIP, respawn=False)
+add_command("jackd -dalsa -dhw:0 -r44100 -p1024 -n2", host=_audioIP, identifier="jackd")
 
-add_command("firereset", identifier="firereset", user=_user, host=_audioIP, respawn=False)
-add_command("jackd -R -dfirewire -r48000 -p1024 -n3", host=_audioIP, identifier="jackd")
 
 # server:
-add_command("spinserver --spatosc BasicTranslator osc.tcp://%s:18033" % (_audioIP), env={"LD_LIBRARY_PATH":"/usr/local/lib64:/usr/local/lib", "OSG_NOTIFY_LEVEL":"FATAL"}, user=_user, host=_host, sleep_after=1.0, identifier="spinServer") 
+add_command("spinserver", env={"LD_LIBRARY_PATH":"/usr/local/lib64:/usr/local/lib", "OSG_NOTIFY_LEVEL":"FATAL"}, user=_user, host=_serverIP, sleep_after=1.0, identifier="spinserver") 
 
-add_command("spinviewer --framerate 30 --config ~/src/spinframework/src/Resources/camconfig/dome210.xml", env={"DISPLAY":":0.0", "LD_LIBRARY_PATH":"/usr/local/lib64:/usr/local/lib", "OSG_NOTIFY_LEVEL":"FATAL"}, user=_user, host=_host, identifier="spinviewer_dome")
-#add_command("spinviewer --framerate 30 --config ~/src/spinframework/src/Resources/camconfig/four-screen-cube.xml --clipping 0.01 700", env={"DISPLAY":":0.0", "LD_LIBRARY_PATH":"/usr/local/lib64:/usr/local/lib", "OSG_NOTIFY_LEVEL":"FATAL"}, user=_user, host=_host, identifier="spinviewer_4_screens")
+add_command("spinviewer --screen 1 --fullscreen --hide-cursor", env={"DISPLAY":":0.1", "LD_LIBRARY_PATH":"/usr/local/lib64:/usr/local/lib", "OSG_NOTIFY_LEVEL":"FATAL"}, user=_user, host=_viewerIP, identifier="spinviewer")
 
-# clients:
-#add_command("pdextended -noaudio -path %s mcluhan.pd" % (_projectPath), env={"DISPLAY":":0.0"}, user=_user, host=_controller, sleep_after=2.0, identifier="Pd-control")
 
-#add_command("pdextended -jack -audiobuf 100 -channels 4 -path %s mcluhan.pd" % (_projectPath), env={"DISPLAY":":0.0"}, user=_user, host=_audioIP, sleep_after=0.0, identifier="Pd-audio")
-add_command("pdextended -jack -audiobuf 100 -channels 8 -path %s mcluhan_dome.pd" % (_projectPath), env={"DISPLAY":":0.0"}, user=_user, host=_audioIP, sleep_after=0.0, identifier="Pd-audio")
-#add_command("pdextended -jack -audiobuf 100 -channels 8 -path %s mcluhan_dome.pd /home/posture/content/nta/toronto/toronto.pd" % (_projectPath), env={"DISPLAY":":0.0"}, user=_user, host=_audioIP, sleep_after=0.0, identifier="Pd-audio")
+add_command("pdextended -jack -audiobuf 100 -channels 8 -path %s holofields.pd" % (_projectPath), env={"DISPLAY":":0.0"}, user=_user, host=_audioIP, sleep_after=0.0, identifier="Pd")
+#add_command("pdextended -jack -audiobuf 100 -channels 8 -path %s mcluhan_dome.pd" % (_projectPath), env={"DISPLAY":":0.0"}, user=_user, host=_audioIP, sleep_after=0.0, identifier="Pd-audio")
 
 
